@@ -1,0 +1,15 @@
+from scipy.optimize import minimize
+
+def objective_function(x):
+    return x[0]**2 + x[1]**2
+
+def constraint_function(x):
+    return x[0] + x[1] - 1
+
+initial_guess = [0.0, 0.0]
+constraints = [{'type': 'ineq', 'fun': constraint_function}]
+
+result = minimize(objective_function, initial_guess, constraints=constraints)
+
+print("Optimal solution:", result.x)
+print("Optimal value:", result.fun)

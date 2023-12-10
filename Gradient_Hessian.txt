@@ -1,0 +1,14 @@
+import sympy as sp
+
+x1, x2 = sp.symbols('x1 x2')
+
+f = 100 * (x1**2 - x2**2)**2 + (1 - x2)
+
+gradient = [sp.diff(f, x1), sp.diff(f, x2)]
+
+hessian = sp.hessian(f, (x1, x2))
+
+print("Gradient:")
+print(gradient)
+print("\nHessian:")
+print(hessian)

@@ -1,0 +1,60 @@
+import numpy as np
+from scipy.optimize import linprog
+import matplotlib.pyplot as plt
+
+# Define the coefficients of the objective function to maximize
+c = [-5, -3]  # Coefficients of the function to maximize (e.g., Z = 5x + 3y)
+
+# Define the coefficients of inequality constraints in the form of Ax <= b
+A = np.array([[2, 1],  # Coefficients of the first constraint
+              [1, 3]])  # Coefficients of the second constraint
+
+b = [10, 12]  # Right-hand side values of the constraints
+
+# Define the bounds for variables (x and y) - e.g., x >= 0, y >= 0
+x_bounds = (0, None)  # x >= 0
+y_bounds = (0, None)  # y >= 0
+
+# Solve the linear programming problem
+result = linprog(c, A_ub=A, b_ub=b, bounds=[x_bounds, y_bounds], method='highs')
+
+if result.success:
+    print("Optimal solution found:")
+    print("x =", result.x[0])
+    print("y =", result.x[1])
+    print("Optimal value (Z) =", -result.fun)
+    x = result.x[0]
+    y = result.x[1]
+else:
+    print("No optimal solution found.")
+
+# Create a meshgrid for plotting the feasible region
+x_range = np.linspace(0, 10, 400)
+y_range = np.linspace(0, 10, 400)
+X, Y = np.meshgrid(x_range, y_range)
+
+# Define the constraints in the form Ax <= b
+constraint1 = 2 * X + Y
+constraint2 = X + 3 * Y
+
+# Plot the feasible region
+plt.figure()
+plt.contour(X, Y, (constraint1 <= 10), colors='red', levels=[0], linewidths=2)
+plt.contour(X, Y, (constraint2 <= 12), colors='blue', levels=[0], linewidths=2)
+plt.fill_between(x_range, 0, (12 - x_range) / 3, where=(12 - x_range) / 3 >= 0,
+                 color='black', alpha=0.5)
+plt.fill_between(y_range, 0, (10 - 2 * y_range), where=(10 - 2 * y_range) >= 0,
+                 color='blue', alpha=0.5)
+
+# Plot the optimal solution point
+plt.plot(x, y, 'ro')
+plt.text(x, y, f'Optimal\n({x}, {y})', fontsize=12, ha='left')
+
+# Set axis labels and limits
+plt.xlabel('x')
+plt.ylabel('y')
+plt.xlim(0, 10)
+plt.ylim(0, 10)
+
+# Show the plot
+plt.show()

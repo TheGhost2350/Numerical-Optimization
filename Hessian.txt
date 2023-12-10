@@ -1,0 +1,12 @@
+import sympy as sp
+
+x, y = sp.symbols('x y')
+
+func = 10*(y - x**2)**2 + (1 - x)**2
+
+hessian_mat = sp.hessian(func, (x, y))
+
+print()
+print("Hessian Matrix : ")
+print()
+print(hessian_mat)

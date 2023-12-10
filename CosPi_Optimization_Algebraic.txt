@@ -1,0 +1,14 @@
+import numpy as np
+
+def f(x):
+    return -10 * np.cos(np.pi * x - 2.2) + (x + 1.5) * x
+
+x_range = np.linspace(-10, 10, 1000)
+
+min_value = np.min(f(x_range))
+min_location = x_range[np.argmin(f(x_range))]
+
+print()
+print(f"Global Optimal Solution:")
+print(f"Minimum Value: {min_value}")
+print(f"Location: {min_location}")
