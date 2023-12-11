@@ -1,0 +1,13 @@
+#QUES 1
+from scipy.optimize import minimize_scalar
+
+# Define the objective function
+def objective_function(x):
+    return (x - 2)**2 + 2*x + 3
+
+# Perform unconstrained minimization
+result = minimize_scalar(objective_function)
+
+# Display the result
+print("Minimum value:", result.fun)
+print("Minimizer:", result.x)
